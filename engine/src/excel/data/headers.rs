@@ -8,9 +8,9 @@ pub(crate) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day)
     // AppInfo
     let appinfo_format = Format::new().set_align(FormatAlign::Center);
     month_worksheet.merge_range(
-        1,
+        0,
         column_name_to_number("B"),
-        1,
+        0,
         column_name_to_number("C"),
         "dev.release",
         &appinfo_format,
