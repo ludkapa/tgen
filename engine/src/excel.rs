@@ -48,6 +48,10 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
         usual_days_formula.pop();
         weekend_formula.pop();
         // Add salary
+        let salary = match salary {
+            0 => "".to_string(),
+            _ => salary.to_string(),
+        };
         month_worksheet.write(4, column_name_to_number("E"), salary)?;
         // Add a total block
         add_total_cells(
