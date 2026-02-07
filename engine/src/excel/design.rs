@@ -1,5 +1,5 @@
-use anyhow::Result as AResult;
-use rust_xlsxwriter::Format;
+use anyhow::{Ok, Result as AResult};
+use rust_xlsxwriter::{Color, Format, FormatBorder};
 
 pub(crate) enum DataType {
     Money,     // Rounded to 2 decimal places and formatted as currency
@@ -20,6 +20,44 @@ pub(crate) enum CellType {
 }
 
 pub(crate) fn CellStyle(data_type: DataType, cell_type: CellType) -> AResult<Format> {
-    let format = Format::new();
-    todo!()
+    let format = match cell_type {
+        CellType::Usual => Format::new().set_border(FormatBorder::Dotted).set_bold(),
+
+        CellType::Weekend => Format::new()
+            .set_border(FormatBorder::Dotted)
+            .set_bold()
+            .set_background_color(Color::RGB(0xF8B9B8)),
+
+        CellType::Earn => Format::new()
+            .set_border(FormatBorder::Dotted)
+            .set_bold()
+            .set_background_color(Color::RGB(0xB2E19E)),
+
+        CellType::Headers => Format::new()
+            .set_border(FormatBorder::Medium)
+            .set_background_color(Color::RGB(0xEDCAE9)),
+
+        CellType::TotalBonus => Format::new().set_border(FormatBorder::Medium).set_bold(),
+
+        CellType::InputHeader => Format::new()
+            .set_border(FormatBorder::Medium)
+            .set_background_color(Color::RGB(0xF0C2A7)),
+
+        CellType::MonthWinter => Format::new()
+            .set_border(FormatBorder::Medium)
+            .set_background_color(Color::RGB(0xC6E8F4)),
+
+        CellType::MonthSpring => Format::new()
+            .set_border(FormatBorder::Medium)
+            .set_background_color(Color::RGB(0xB2E19E)),
+
+        CellType::MonthSummer => Format::new()
+            .set_border(FormatBorder::Medium)
+            .set_background_color(Color::RGB(0xFABD02)),
+
+        CellType::MonthAutumn => Format::new()
+            .set_border(FormatBorder::Medium)
+            .set_background_color(Color::RGB(0xF0C1A7)),
+    };
+    Ok(format)
 }
