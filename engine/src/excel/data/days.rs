@@ -11,6 +11,13 @@ pub(crate) enum DayType {
     Weekend,
 }
 
+pub(crate) enum Season {
+    Winter,
+    Spring,
+    Summer,
+    Autumn,
+}
+
 #[derive(Default, Debug)]
 pub(crate) struct Day {
     day: NaiveDate,
@@ -57,6 +64,16 @@ impl Day {
             11 => "🌧️ Ноябрь".to_string(),
             12 => "🎄 Декабрь".to_string(),
             _ => "❓ Неизвестный месяц".to_string(),
+        }
+    }
+
+    pub(crate) fn season(&self) -> Season {
+        match self.day.month() {
+            1 | 2 | 12 => Season::Winter,
+            3 | 4 | 5 => Season::Spring,
+            6 | 7 | 8 => Season::Summer,
+            9 | 10 | 11 => Season::Autumn,
+            _ => Season::Winter,
         }
     }
 }
