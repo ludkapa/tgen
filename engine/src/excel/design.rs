@@ -1,4 +1,3 @@
-use anyhow::{Ok, Result as AResult};
 use rust_xlsxwriter::{Color, Format, FormatBorder};
 
 pub(crate) enum DataType {
@@ -19,7 +18,7 @@ pub(crate) enum CellType {
     MonthSpring, // For month spring cells - green background solid border and normal font
 }
 
-pub(crate) fn CellStyle(data_type: DataType, cell_type: CellType) -> AResult<Format> {
+pub(crate) fn cell_style(data_type: DataType, cell_type: CellType) -> Format {
     let format = match cell_type {
         CellType::Usual => Format::new().set_border(FormatBorder::Dotted).set_bold(),
 
@@ -59,5 +58,5 @@ pub(crate) fn CellStyle(data_type: DataType, cell_type: CellType) -> AResult<For
             .set_border(FormatBorder::Medium)
             .set_background_color(Color::RGB(0xF0C1A7)),
     };
-    Ok(format)
+    format
 }
