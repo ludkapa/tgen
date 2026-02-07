@@ -75,9 +75,9 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
         // Do wider border at bottom of days block
         format = Format::new().set_border_top(FormatBorder::Medium);
         month_worksheet.merge_range(
-            2 + month_days.len() as u32,
+            3 + month_days.len() as u32,
             column_name_to_number("A"),
-            2 + month_days.len() as u32,
+            3 + month_days.len() as u32,
             column_name_to_number("C"),
             "",
             &format,
