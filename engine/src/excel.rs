@@ -99,4 +99,5 @@ async fn get_dates_at_year(year: u16) -> AResult<Days> {
 }
 
 mod data;
+mod design;
 mod network;
