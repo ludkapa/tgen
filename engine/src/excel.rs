@@ -28,6 +28,8 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
     for month_days in chunks {
         // Creating Sheet
         let month_worksheet = table.add_worksheet();
+        // Make worksheet white
+        month_worksheet.set_screen_gridlines(false);
         // For total formulas
         let mut weekend_formula: String = "=".to_string();
         let mut usual_days_formula: String = "=".to_string();
