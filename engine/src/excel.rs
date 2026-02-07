@@ -12,6 +12,8 @@ use anyhow::Ok;
 use anyhow::Result as AResult;
 use chrono::{Datelike, NaiveDate, Weekday};
 use network::holiday;
+use rust_xlsxwriter::Format;
+use rust_xlsxwriter::FormatBorder;
 use rust_xlsxwriter::utility::column_name_to_number;
 use rust_xlsxwriter::workbook::Workbook;
 use std::collections::HashSet;
@@ -57,7 +59,7 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
             _ => salary.to_string(),
         };
 
-        let format = cell_style(DataType::Money, CellType::InputHeader);
+        let mut format = cell_style(DataType::Money, CellType::InputHeader);
         month_worksheet.write_with_format(4, column_name_to_number("E"), salary, &format)?;
         // Add a total block
         add_total_cells(
@@ -66,6 +68,17 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
             month_days.len() as u8,
             usual_days_formula,
             weekend_formula,
+        )?;
+        // Polish worksheet
+        // Do wider border at bottom of days block
+        format = Format::new().set_border_top(FormatBorder::Medium);
+        month_worksheet.merge_range(
+            2 + month_days.len() as u32,
+            column_name_to_number("A"),
+            2 + month_days.len() as u32,
+            column_name_to_number("C"),
+            "",
+            &format,
         )?;
         // Autofit columns
         month_worksheet.autofit();
