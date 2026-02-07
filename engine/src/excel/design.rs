@@ -58,5 +58,11 @@ pub(crate) fn cell_style(data_type: DataType, cell_type: CellType) -> Format {
             .set_border(FormatBorder::Medium)
             .set_background_color(Color::RGB(0xF0C1A7)),
     };
+
+    format = match data_type {
+        DataType::Money => format.set_num_format("#,##0.00\" ₽\""),
+        DataType::UsualText => format,
+    };
+
     format.set_align(rust_xlsxwriter::FormatAlign::Center)
 }
