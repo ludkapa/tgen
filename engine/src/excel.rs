@@ -4,9 +4,9 @@ use crate::excel::data::days::Days;
 use crate::excel::data::days::add_day_cell;
 use crate::excel::data::headers::add_header_cells;
 use crate::excel::data::total::add_total_cells;
-use crate::excel::design::CellType;
-use crate::excel::design::DataType;
-use crate::excel::design::cell_style;
+use crate::excel::styles::CellType;
+use crate::excel::styles::DataType;
+use crate::excel::styles::cell_style;
 
 use anyhow::Ok;
 use anyhow::Result as AResult;
@@ -127,5 +127,5 @@ async fn get_dates_at_year(year: u16) -> AResult<Days> {
 }
 
 mod data;
-mod design;
 mod network;
+mod styles;

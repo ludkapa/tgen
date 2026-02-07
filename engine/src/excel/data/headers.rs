@@ -1,6 +1,6 @@
 use crate::excel::{
     data::days::{Day, Season},
-    design::{CellType, DataType, cell_style},
+    styles::{CellType, DataType, cell_style},
 };
 use anyhow::Result as AResult;
 use rust_xlsxwriter::{utility::column_name_to_number, worksheet::Worksheet};
