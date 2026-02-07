@@ -19,7 +19,7 @@ pub(crate) enum CellType {
 }
 
 pub(crate) fn cell_style(data_type: DataType, cell_type: CellType) -> Format {
-    let format = match cell_type {
+    let mut format = match cell_type {
         CellType::Usual => Format::new().set_border(FormatBorder::Dotted).set_bold(),
 
         CellType::Weekend => Format::new()
@@ -58,5 +58,5 @@ pub(crate) fn cell_style(data_type: DataType, cell_type: CellType) -> Format {
             .set_border(FormatBorder::Medium)
             .set_background_color(Color::RGB(0xF0C1A7)),
     };
-    format
+    format.set_align(rust_xlsxwriter::FormatAlign::Center)
 }
