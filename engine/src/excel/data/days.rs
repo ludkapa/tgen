@@ -1,4 +1,4 @@
-use crate::excel::design::{CellType, DataType, cell_style};
+use crate::excel::styles::{CellType, DataType, cell_style};
 use anyhow::Result as AResult;
 use chrono::{Datelike, NaiveDate, Weekday};
 use derive_more::{Deref, DerefMut, IntoIterator};

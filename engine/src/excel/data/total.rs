@@ -1,7 +1,7 @@
 use anyhow::Result as AResult;
 use rust_xlsxwriter::{Formula, utility::column_name_to_number, worksheet::Worksheet};
 
-use crate::excel::design::{CellType, DataType, cell_style};
+use crate::excel::styles::{CellType, DataType, cell_style};
 
 pub(crate) fn add_total_cells(
     month_worksheet: &mut Worksheet,
