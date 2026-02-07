@@ -28,7 +28,7 @@ pub(crate) fn add_total_cells(
         &format,
     )?;
 
-    format = cell_style(DataType::Money, CellType::Earn);
+    format = cell_style(DataType::Money, CellType::TotalPayment);
     // Total payment formula
     month_worksheet.write_formula_with_format(
         5,

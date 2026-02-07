@@ -41,7 +41,7 @@ pub(crate) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day)
     // Salary input header
     month_worksheet.write_with_format(4, column_name_to_number("D"), "Оклад:", &format)?;
 
-    format = cell_style(DataType::UsualText, CellType::Earn);
+    format = cell_style(DataType::UsualText, CellType::TotalPayment);
     // Total payout header
     month_worksheet.write_with_format(5, column_name_to_number("D"), "К получению:", &format)?;
 
