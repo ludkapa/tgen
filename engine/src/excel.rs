@@ -4,10 +4,16 @@ use crate::excel::data::days::Days;
 use crate::excel::data::days::add_day_cell;
 use crate::excel::data::headers::add_header_cells;
 use crate::excel::data::total::add_total_cells;
+use crate::excel::design::CellType;
+use crate::excel::design::DataType;
+use crate::excel::design::cell_style;
+
 use anyhow::Ok;
 use anyhow::Result as AResult;
 use chrono::{Datelike, NaiveDate, Weekday};
 use network::holiday;
+use rust_xlsxwriter::Format;
+use rust_xlsxwriter::FormatBorder;
 use rust_xlsxwriter::utility::column_name_to_number;
 use rust_xlsxwriter::workbook::Workbook;
 use std::collections::HashSet;
@@ -22,6 +28,8 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
     for month_days in chunks {
         // Creating Sheet
         let month_worksheet = table.add_worksheet();
+        // Make worksheet white
+        month_worksheet.set_screen_gridlines(false);
         // For total formulas
         let mut weekend_formula: String = "=".to_string();
         let mut usual_days_formula: String = "=".to_string();
@@ -52,7 +60,14 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
             0 => "".to_string(),
             _ => salary.to_string(),
         };
-        month_worksheet.write(4, column_name_to_number("E"), salary)?;
+
+        let mut format = cell_style(DataType::Money, CellType::InputHeader);
+        month_worksheet.write_formula_with_format(
+            4,
+            column_name_to_number("E"),
+            format!("={}", salary).as_str(),
+            &format,
+        )?;
         // Add a total block
         add_total_cells(
             month_worksheet,
@@ -61,10 +76,23 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
             usual_days_formula,
             weekend_formula,
         )?;
+        // Polish worksheet
+        // Do wider border at bottom of days block
+        format = Format::new().set_border_top(FormatBorder::Medium);
+        month_worksheet.merge_range(
+            3 + month_days.len() as u32,
+            column_name_to_number("A"),
+            3 + month_days.len() as u32,
+            column_name_to_number("C"),
+            "",
+            &format,
+        )?;
         // Autofit columns
         month_worksheet.autofit();
         // Make E column wider
         month_worksheet.set_column_width(column_name_to_number("E"), 12)?;
+        // Make B column narrower
+        month_worksheet.set_column_width(column_name_to_number("B"), 7.5)?;
         // Set month name
         month_worksheet.set_name(month_days.first().unwrap().month_name())?;
     }
@@ -99,4 +127,5 @@ async fn get_dates_at_year(year: u16) -> AResult<Days> {
 }
 
 mod data;
+mod design;
 mod network;
