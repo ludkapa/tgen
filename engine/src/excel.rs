@@ -86,6 +86,8 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
         month_worksheet.autofit();
         // Make E column wider
         month_worksheet.set_column_width(column_name_to_number("E"), 12)?;
+        // Make B column narrower
+        month_worksheet.set_column_width(column_name_to_number("B"), 7.5)?;
         // Set month name
         month_worksheet.set_name(month_days.first().unwrap().month_name())?;
     }
