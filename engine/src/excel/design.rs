@@ -10,7 +10,7 @@ pub(crate) enum CellType {
     Usual,       // For usual cells - white background dotted border and bold font
     Weekend,     // For weekend day cells - white red background dotted border and bold font
     Earn,        // For earn cells - green background dotted border and bold font
-    Headers,     // For header cells - pink background and solid border normal font
+    Header,      // For header cells - pink background and solid border normal font
     TotalBonus,  // For total bonus cells - white background solid border and bold font
     InputHeader, // For input header cells - orange background solid border and normal font
     MonthWinter, // For month winter cells - blue background solid border and normal font
@@ -33,7 +33,7 @@ pub(crate) fn CellStyle(data_type: DataType, cell_type: CellType) -> AResult<For
             .set_bold()
             .set_background_color(Color::RGB(0xB2E19E)),
 
-        CellType::Headers => Format::new()
+        CellType::Header => Format::new()
             .set_border(FormatBorder::Medium)
             .set_background_color(Color::RGB(0xEDCAE9)),
 
