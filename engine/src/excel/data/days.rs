@@ -1,3 +1,4 @@
+use crate::excel::design::{CellStyle, CellType, DataType};
 use anyhow::Result as AResult;
 use chrono::{Datelike, NaiveDate, Weekday};
 use derive_more::{Deref, DerefMut, IntoIterator};
@@ -95,16 +96,26 @@ impl Days {
 
 pub(crate) fn add_day_cell(month_worksheet: &mut Worksheet, day: &Day) -> AResult<DayType> {
     let day_row = 2 + day.number();
-    month_worksheet.write(
+
+    let mut format = match day.flag {
+        DayType::Earn => CellStyle(DataType::UsualText, CellType::Earn)?,
+        DayType::Weekend => CellStyle(DataType::UsualText, CellType::Weekend)?,
+        DayType::Usual => CellStyle(DataType::UsualText, CellType::Usual)?,
+    };
+    month_worksheet.write_with_format(
         day_row,
         0,
-        format!("{} {}", day.number(), day.weekday_short(),),
+        format!("{} {}", day.number(), day.weekday_short()),
+        &format,
     )?;
-    month_worksheet.write(day_row, column_name_to_number("B"), "0")?;
-    month_worksheet.write_formula(
+    month_worksheet.write_with_format(day_row, column_name_to_number("B"), "0", &format)?;
+
+    format = CellStyle(DataType::Money, CellType::TotalBonus)?;
+    month_worksheet.write_formula_with_format(
         day_row,
         column_name_to_number("C"),
         Formula::new(format!("=E5/E1*B{}", day_row + 1)),
+        &format,
     )?; //Complite it
     Ok(day.flag)
 }
