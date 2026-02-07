@@ -58,7 +58,7 @@ pub(crate) fn cell_style(data_type: DataType, cell_type: CellType) -> Format {
 
         CellType::MonthSummer => Format::new()
             .set_border(FormatBorder::Medium)
-            .set_background_color(Color::RGB(0xFABD02)),
+            .set_background_color(Color::RGB(0xFFE699)),
 
         CellType::MonthAutumn => Format::new()
             .set_border(FormatBorder::Medium)
