@@ -4,6 +4,9 @@ use crate::excel::data::days::Days;
 use crate::excel::data::days::add_day_cell;
 use crate::excel::data::headers::add_header_cells;
 use crate::excel::data::total::add_total_cells;
+use crate::excel::design::CellType;
+use crate::excel::design::DataType;
+use crate::excel::design::cell_style;
 use anyhow::Ok;
 use anyhow::Result as AResult;
 use chrono::{Datelike, NaiveDate, Weekday};
@@ -52,7 +55,8 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
             0 => "".to_string(),
             _ => salary.to_string(),
         };
-        month_worksheet.write(4, column_name_to_number("E"), salary)?;
+        let format = cell_style(DataType::Money, CellType::TotalBonus);
+        month_worksheet.write_with_format(4, column_name_to_number("E"), salary, &format)?;
         // Add a total block
         add_total_cells(
             month_worksheet,

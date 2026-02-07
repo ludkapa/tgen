@@ -1,13 +1,13 @@
 use crate::excel::{
     data::days::{Day, Season},
-    design::{CellStyle, CellType, DataType},
+    design::{CellType, DataType, cell_style},
 };
 use anyhow::Result as AResult;
 use rust_xlsxwriter::{utility::column_name_to_number, worksheet::Worksheet};
 
 pub(crate) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day) -> AResult<()> {
     // Year
-    let mut format = CellStyle(DataType::UsualText, CellType::Header)?;
+    let mut format = cell_style(DataType::UsualText, CellType::Header);
     month_worksheet.write_with_format(0, column_name_to_number("A"), first_day.year(), &format)?;
     // AppInfo
     month_worksheet.merge_range(
@@ -35,22 +35,22 @@ pub(crate) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day)
         &format,
     )?;
 
-    format = CellStyle(DataType::UsualText, CellType::InputHeader)?;
+    format = cell_style(DataType::UsualText, CellType::InputHeader);
     // Hours header
     month_worksheet.write_with_format(2, column_name_to_number("B"), "Часы", &format)?;
     // Salary input header
     month_worksheet.write_with_format(4, column_name_to_number("D"), "Оклад:", &format)?;
 
-    format = CellStyle(DataType::UsualText, CellType::Earn)?;
+    format = cell_style(DataType::UsualText, CellType::Earn);
     // Total payout header
     month_worksheet.write_with_format(5, column_name_to_number("D"), "К получению:", &format)?;
 
     // Month
     format = match first_day.season() {
-        Season::Winter => CellStyle(DataType::UsualText, CellType::MonthWinter)?,
-        Season::Spring => CellStyle(DataType::UsualText, CellType::MonthSpring)?,
-        Season::Summer => CellStyle(DataType::UsualText, CellType::MonthSummer)?,
-        Season::Autumn => CellStyle(DataType::UsualText, CellType::MonthAutumn)?,
+        Season::Winter => cell_style(DataType::UsualText, CellType::MonthWinter),
+        Season::Spring => cell_style(DataType::UsualText, CellType::MonthSpring),
+        Season::Summer => cell_style(DataType::UsualText, CellType::MonthSummer),
+        Season::Autumn => cell_style(DataType::UsualText, CellType::MonthAutumn),
     };
 
     month_worksheet.merge_range(
