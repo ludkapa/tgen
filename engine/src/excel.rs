@@ -62,7 +62,12 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
         };
 
         let mut format = cell_style(DataType::Money, CellType::InputHeader);
-        month_worksheet.write_with_format(4, column_name_to_number("E"), salary, &format)?;
+        month_worksheet.write_formula_with_format(
+            4,
+            column_name_to_number("E"),
+            format!("={}", salary).as_str(),
+            &format,
+        )?;
         // Add a total block
         add_total_cells(
             month_worksheet,
