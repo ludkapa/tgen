@@ -114,7 +114,7 @@ pub(crate) fn add_day_cell(month_worksheet: &mut Worksheet, day: &Day) -> AResul
     month_worksheet.write_formula_with_format(
         day_row,
         column_name_to_number("C"),
-        Formula::new(format!("=E5/E1*B{}", day_row + 1)),
+        Formula::new(format!("=E5/E1*B{}*2", day_row + 1)),
         &format,
     )?; //Complite it
     Ok(day.flag)
