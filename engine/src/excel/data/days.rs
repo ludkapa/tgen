@@ -102,13 +102,13 @@ pub(crate) fn add_day_cell(month_worksheet: &mut Worksheet, day: &Day) -> AResul
         DayType::Weekend => cell_style(DataType::UsualText, CellType::Weekend),
         DayType::Usual => cell_style(DataType::UsualText, CellType::Usual),
     };
+    month_worksheet.write_with_format(day_row, column_name_to_number("B"), "0", &format)?;
     month_worksheet.write_with_format(
         day_row,
         0,
         format!("{} {}", day.number(), day.weekday_short()),
-        &format,
+        &format.set_border_left(FormatBorder::Medium),
     )?;
-    month_worksheet.write_with_format(day_row, column_name_to_number("B"), "0", &format)?;
 
     format = cell_style(DataType::Money, CellType::TotalBonus);
     month_worksheet.write_formula_with_format(
