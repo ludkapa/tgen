@@ -2,7 +2,9 @@ use crate::excel::styles::{CellType, DataType, cell_style};
 use anyhow::Result as AResult;
 use chrono::{Datelike, NaiveDate, Weekday};
 use derive_more::{Deref, DerefMut, IntoIterator};
-use rust_xlsxwriter::{Formula, utility::column_name_to_number, worksheet::Worksheet};
+use rust_xlsxwriter::{
+    FormatBorder, Formula, utility::column_name_to_number, worksheet::Worksheet,
+};
 
 #[derive(Default, Debug, Clone, Copy)]
 pub(crate) enum DayType {
