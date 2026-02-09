@@ -33,8 +33,6 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
         // For total formulas
         let mut weekend_cells = Vec::new();
         let mut usual_day_cells = Vec::new();
-        // Adding headers
-        add_header_cells(month_worksheet, month_days.first().unwrap())?;
         // For work hours
         let mut work_hours: u16 = 0;
         // Iterate over days in month chunk
@@ -54,6 +52,9 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
                 }
             }
         }
+
+        // Adding headers
+        add_header_cells(month_worksheet, month_days.first().unwrap())?;
 
         // Make formula string
         let weekends_formula = format!("={}", weekend_cells.join("+"));
