@@ -63,16 +63,21 @@ async fn run_bot(token: String, port: String, webhook_url: String) {
     todo!()
 }
 
-async fn start() -> HandlerResult {
+async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
     todo!()
 }
 
-async fn main_menu() -> HandlerResult {
+async fn main_menu(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
     todo!()
 }
-async fn salary() -> HandlerResult {
+async fn salary(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
     todo!()
 }
-async fn year_select() -> HandlerResult {
+async fn year_select(
+    bot: Bot,
+    dialogue: UserDialogue,
+    salary: String,
+    msg: Message,
+) -> HandlerResult {
     todo!()
 }
