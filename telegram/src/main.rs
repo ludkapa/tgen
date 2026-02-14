@@ -76,7 +76,7 @@ async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult 
             Some(username) => username,
             None => user.id.0.to_string(),
         },
-        None => "Пользователь".to_string(),
+        None => "пользователь".to_string(),
     };
     bot.send_message(msg.chat.id, format!("Привет {}, этот бот генерирует табель для подсчёта переработок.\nВыбери что ты хочешь сделать ниже:", user_name)).await?;
     dialogue.update(DState::MainMenu).await?;
