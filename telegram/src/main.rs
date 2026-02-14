@@ -66,7 +66,6 @@ async fn run_bot(token: String, port: String, webhook_url: String) {
             LoggingErrorHandler::with_custom_text("Ошибка при обновлении!"),
         )
         .await;
-    todo!()
 }
 
 async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
@@ -86,9 +85,11 @@ async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult 
 async fn main_menu(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
     todo!()
 }
+
 async fn salary(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
     todo!()
 }
+
 async fn year_select(
     bot: Bot,
     dialogue: UserDialogue,
