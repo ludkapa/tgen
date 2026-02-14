@@ -1,12 +1,6 @@
 use dotenvy::dotenv;
 use std::{env, error::Error, net::SocketAddr};
-use teloxide::{
-    dispatching::dialogue::{GetChatId, InMemStorage},
-    prelude::*,
-    types::User,
-    update_listeners::webhooks,
-    utils::markdown::user_mention_or_link,
-};
+use teloxide::{dispatching::dialogue::InMemStorage, prelude::*, update_listeners::webhooks};
 
 type HandlerResult = Result<(), Box<dyn Error + Sync + Send>>;
 type UserDialogue = Dialogue<DState, InMemStorage<DState>>;
