@@ -1,6 +1,12 @@
 use dotenvy::dotenv;
 use std::{env, error::Error, net::SocketAddr};
-use teloxide::{dispatching::dialogue::InMemStorage, prelude::*, update_listeners::webhooks};
+use teloxide::{
+    dispatching::dialogue::{GetChatId, InMemStorage},
+    prelude::*,
+    types::User,
+    update_listeners::webhooks,
+    utils::markdown::user_mention_or_link,
+};
 
 type HandlerResult = Result<(), Box<dyn Error + Sync + Send>>;
 type UserDialogue = Dialogue<DState, InMemStorage<DState>>;
@@ -64,7 +70,17 @@ async fn run_bot(token: String, port: String, webhook_url: String) {
 }
 
 async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
-    todo!()
+    let user = msg.from;
+    let user_name: String = match user {
+        Some(user) => match user.username {
+            Some(username) => username,
+            None => user.id.0.to_string(),
+        },
+        None => "Пользователь".to_string(),
+    };
+    bot.send_message(msg.chat.id, format!("Привет {}, этот бот генерирует табель для подсчёта переработок.\nВыбери что ты хочешь сделать ниже:", user_name)).await?;
+    dialogue.update(DState::MainMenu).await?;
+    Ok(())
 }
 
 async fn main_menu(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
