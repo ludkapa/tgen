@@ -1,5 +1,6 @@
 use anyhow::Ok;
 use anyhow::Result as AResult;
+use chrono::Datelike;
 use chrono::NaiveDate;
 use serde::Deserialize;
 
@@ -19,8 +20,12 @@ impl FetchedDates {
         Ok(fetched_dates)
     }
 
-    pub(crate) fn get_year_dates(year: u16) -> Vec<NaiveDate> {
-        todo!()
+    pub(crate) fn get_year_dates(&self, year: u16) -> Vec<NaiveDate> {
+        self.holidays
+            .iter()
+            .copied()
+            .filter(|d| d.year() == year as i32)
+            .collect()
     }
 
     pub(crate) fn get_exist_years() -> Vec<u16> {
