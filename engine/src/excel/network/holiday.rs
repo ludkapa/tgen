@@ -40,14 +40,3 @@ impl FetchedDates {
         years
     }
 }
-
-// pub async fn fetch_holidays_by_year(year: u16) -> AResult<Vec<NaiveDate>> {
-//     let year_str = year.to_string();
-//     let holidays_at_year: Vec<NaiveDate> = dates_str
-//         .holidays
-//         .into_iter()
-//         .filter(|d| d.contains(&year_str))
-//         .filter_map(|d| NaiveDate::parse_from_str(d.as_str(), "%Y-%m-%d").ok())
-//         .collect();
-//     Ok(holidays_at_year)
-// }
