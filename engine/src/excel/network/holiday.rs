@@ -13,7 +13,7 @@ impl FetchedDates {
         todo!()
     }
 
-    pub(crate) fn get_year_dates() -> Vec<NaiveDate> {
+    pub(crate) fn get_year_dates(year: u16) -> Vec<NaiveDate> {
         todo!()
     }
 
