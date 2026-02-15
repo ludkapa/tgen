@@ -30,8 +30,15 @@ impl FetchedDates {
             .collect()
     }
 
-    pub(crate) fn get_exist_years() -> Vec<u16> {
-        todo!()
+    pub(crate) fn get_exist_years(&mut self) -> Vec<u16> {
+        if let Some(cached) = &self.exist_years {
+            return cached.clone();
+        }
+        let mut years: Vec<u16> = self.holidays.iter().map(|d| d.year() as u16).collect();
+        years.sort();
+        years.dedup();
+        self.exist_years = Some(years.clone());
+        years
     }
 }
 
