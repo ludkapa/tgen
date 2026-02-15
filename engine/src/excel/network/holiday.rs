@@ -8,7 +8,7 @@ use serde::Deserialize;
 pub(crate) struct FetchedDates {
     holidays: Vec<NaiveDate>,
     #[serde(skip)]
-    exist_years: Vec<u16>,
+    exist_years: Option<Vec<u16>>,
 }
 
 impl FetchedDates {
