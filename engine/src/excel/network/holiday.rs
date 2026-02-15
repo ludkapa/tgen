@@ -3,10 +3,9 @@ use anyhow::Result as AResult;
 use chrono::NaiveDate;
 use serde::Deserialize;
 
-// DTO
 #[derive(Deserialize, Debug, PartialEq)]
 pub(crate) struct FetchedDates {
-    holidays: Vec<String>,
+    holidays: Vec<NaiveDate>,
 }
 
 pub async fn fetch_holidays_by_year(year: u16) -> AResult<Vec<NaiveDate>> {
