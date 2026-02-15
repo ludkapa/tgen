@@ -4,6 +4,7 @@ use crate::excel::data::days::Days;
 use crate::excel::data::days::add_day_cell;
 use crate::excel::data::headers::add_header_cells;
 use crate::excel::data::total::add_total_cells;
+use crate::excel::holiday::FetchedDates;
 use crate::excel::styles::CellType;
 use crate::excel::styles::DataType;
 use crate::excel::styles::cell_style;
@@ -111,7 +112,7 @@ async fn get_dates_at_year(year: u16) -> AResult<Days> {
     if year < 2017 {
         anyhow::bail!("You cant use year lowest than 2017!");
     }
-    let raw_holidays = holiday::FetchedDates::init().await?.for_year(year);
+    let raw_holidays = FetchedDates::init().await?.for_year(year);
     let holidays: HashSet<NaiveDate> = raw_holidays.into_iter().collect();
     let first_date = NaiveDate::from_ymd_opt(year as i32, 1, 1).unwrap();
 
