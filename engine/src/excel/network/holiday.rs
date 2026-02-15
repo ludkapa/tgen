@@ -7,6 +7,8 @@ use serde::Deserialize;
 #[derive(Deserialize, Debug, PartialEq)]
 pub(crate) struct FetchedDates {
     holidays: Vec<NaiveDate>,
+    #[serde(skip)]
+    exist_years: Vec<u16>,
 }
 
 impl FetchedDates {
