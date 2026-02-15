@@ -9,7 +9,15 @@ pub(crate) struct FetchedDates {
 }
 
 impl FetchedDates {
-    pub(crate) async fn init() -> Self {
+    pub(crate) async fn init() -> AResult<Self> {
+        todo!()
+    }
+
+    pub(crate) fn get_year_dates() -> Vec<NaiveDate> {
+        todo!()
+    }
+
+    pub(crate) fn get_exist_years() -> Vec<u16> {
         todo!()
     }
 }
