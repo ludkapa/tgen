@@ -10,7 +10,13 @@ pub(crate) struct FetchedDates {
 
 impl FetchedDates {
     pub(crate) async fn init() -> AResult<Self> {
-        todo!()
+        let url = "https://raw.githubusercontent.com/d10xa/holidays-calendar/refs/heads/master/json/calendar.json";
+        let response = reqwest::get(url).await?.error_for_status()?;
+        let fetched_dates = match response.json::<FetchedDates>().await.ok() {
+            Some(dates) => dates,
+            None => return Err(anyhow::anyhow!("Cannot fetch holidays from github!")),
+        };
+        Ok(fetched_dates)
     }
 
     pub(crate) fn get_year_dates(year: u16) -> Vec<NaiveDate> {
@@ -23,12 +29,6 @@ impl FetchedDates {
 }
 
 // pub async fn fetch_holidays_by_year(year: u16) -> AResult<Vec<NaiveDate>> {
-//     let url = "https://raw.githubusercontent.com/d10xa/holidays-calendar/refs/heads/master/json/calendar.json";
-//     let response = reqwest::get(url).await?.error_for_status()?;
-//     let dates_str = match response.json::<FetchedDates>().await.ok() {
-//         Some(dates) => dates,
-//         None => return Err(anyhow::anyhow!("Holidays not fetched!")),
-//     };
 //     let year_str = year.to_string();
 //     let holidays_at_year: Vec<NaiveDate> = dates_str
 //         .holidays
