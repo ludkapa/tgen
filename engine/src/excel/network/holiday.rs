@@ -21,7 +21,7 @@ impl FetchedDates {
         Ok(fetched_dates)
     }
 
-    pub(crate) fn get_year_dates(&self, year: u16) -> Vec<NaiveDate> {
+    pub(crate) fn for_year(&self, year: u16) -> Vec<NaiveDate> {
         self.holidays
             .iter()
             .copied()
@@ -29,7 +29,7 @@ impl FetchedDates {
             .collect()
     }
 
-    pub(crate) fn get_exist_years(&mut self) -> Vec<u16> {
+    pub(crate) fn available_years(&mut self) -> Vec<u16> {
         if let Some(cached) = &self.exist_years {
             return cached.clone();
         }
