@@ -4,14 +4,14 @@ use chrono::NaiveDate;
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug, PartialEq)]
-pub(crate) struct FetchedDates {
+pub struct FetchedDates {
     holidays: Vec<NaiveDate>,
     #[serde(skip)]
     exist_years: Option<Vec<u16>>,
 }
 
 impl FetchedDates {
-    pub(crate) async fn init() -> AResult<Self> {
+    pub async fn init() -> AResult<Self> {
         let url = "https://raw.githubusercontent.com/d10xa/holidays-calendar/refs/heads/master/json/calendar.json";
         let response = reqwest::get(url).await?.error_for_status()?;
         let fetched_dates = match response.json::<FetchedDates>().await.ok() {
@@ -29,7 +29,7 @@ impl FetchedDates {
             .collect()
     }
 
-    pub(crate) fn available_years(&mut self) -> Vec<u16> {
+    pub fn available_years(&mut self) -> Vec<u16> {
         if let Some(cached) = &self.exist_years {
             return cached.clone();
         }
