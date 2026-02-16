@@ -112,8 +112,7 @@ async fn get_dates_at_year(year: u16) -> AResult<Days> {
     if year < 2017 {
         anyhow::bail!("You cant use year lowest than 2017!");
     }
-    let raw_holidays = FetchedDates::init().await?.for_year(year);
-    let holidays: HashSet<NaiveDate> = raw_holidays.into_iter().collect();
+    let holidays = FetchedDates::init().await?.for_year(year);
     let first_date = NaiveDate::from_ymd_opt(year as i32, 1, 1).unwrap();
 
     let days: Days = first_date
