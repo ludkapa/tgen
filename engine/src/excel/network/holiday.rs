@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use anyhow::Result as AResult;
 use chrono::Datelike;
 use chrono::NaiveDate;
@@ -5,7 +7,7 @@ use serde::Deserialize;
 
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct FetchedDates {
-    holidays: Vec<NaiveDate>,
+    holidays: HashSet<NaiveDate>,
     #[serde(skip)]
     exist_years: Option<Vec<u16>>,
 }
@@ -21,11 +23,11 @@ impl FetchedDates {
         Ok(fetched_dates)
     }
 
-    pub(crate) fn for_year(&self, year: u16) -> Vec<NaiveDate> {
+    pub(crate) fn for_year(&self, year: u16) -> HashSet<NaiveDate> {
         self.holidays
             .iter()
-            .copied()
             .filter(|d| d.year() == year as i32)
+            .copied()
             .collect()
     }
 
