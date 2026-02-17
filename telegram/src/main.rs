@@ -45,7 +45,7 @@ async fn run_bot(token: String, port: String, webhook_url: String) {
         .enter_dialogue::<Message, InMemStorage<DState>, DState>()
         .branch(dptree::case![DState::Start].endpoint(start))
         .branch(dptree::case![DState::MainMenu].endpoint(main_menu))
-        .branch(dptree::case![DState::Salary].endpoint(salary))
+        .branch(dptree::case![DState::Salary].endpoint(salary));
     // Dispatcher
     Dispatcher::builder(bot, router)
         .dependencies(dptree::deps![InMemStorage::<DState>::new()])
