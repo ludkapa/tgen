@@ -1,8 +1,11 @@
 use anyhow::Result as AResult;
 use chrono::{Datelike, Local};
 use dotenvy::dotenv;
+use engine::excel::get_filled_table;
 use std::{env, error::Error, net::SocketAddr};
-use teloxide::{dispatching::dialogue::InMemStorage, prelude::*, update_listeners::webhooks};
+use teloxide::{
+    dispatching::dialogue::InMemStorage, prelude::*, types::InputFile, update_listeners::webhooks,
+};
 
 type UserDialogue = Dialogue<DState, InMemStorage<DState>>;
 
@@ -79,6 +82,19 @@ async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> AResult<()> {
     Ok(())
 }
 
-async fn salary(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
+async fn salary(bot: Bot, dialogue: UserDialogue, msg: Message) -> AResult<()> {
+    match msg.text() {
+        Some(text) => {
+            let salary = text.parse::<u32>().ok();
+            match salary {
+                Some(s) => {
+                    let table = get_filled_table(s).await?;
+                    bot.send_document(msg.chat.id, InputFile::memory(table));
+                }
+                None => todo!(),
+            };
+        }
+        None => todo!(),
+    }
     todo!()
 }
