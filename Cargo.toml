@@ -1,3 +1,5 @@
 [workspace]
 members = ["engine", "telegram"]
 resolver = "3"
+
+[workspace.dependencies]
