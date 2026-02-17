@@ -10,7 +10,6 @@ type UserDialogue = Dialogue<DState, InMemStorage<DState>>;
 enum DState {
     #[default]
     Start,
-    MainMenu,
     Salary,
 }
 
@@ -44,7 +43,6 @@ async fn run_bot(token: String, port: String, webhook_url: String) {
     let router = Update::filter_message()
         .enter_dialogue::<Message, InMemStorage<DState>, DState>()
         .branch(dptree::case![DState::Start].endpoint(start))
-        .branch(dptree::case![DState::MainMenu].endpoint(main_menu))
         .branch(dptree::case![DState::Salary].endpoint(salary));
     // Dispatcher
     Dispatcher::builder(bot, router)
@@ -68,12 +66,8 @@ async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult 
         None => "пользователь".to_string(),
     };
     bot.send_message(msg.chat.id, format!("Привет {}, этот бот генерирует табель для подсчёта переработок.\nВыбери что ты хочешь сделать ниже:", user_name)).await?;
-    dialogue.update(DState::MainMenu).await?;
+    dialogue.update(todo!()).await?;
     Ok(())
-}
-
-async fn main_menu(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
-    todo!()
 }
 
 async fn salary(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
