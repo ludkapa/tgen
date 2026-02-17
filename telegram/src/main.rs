@@ -65,7 +65,15 @@ async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult 
         },
         None => "пользователь".to_string(),
     };
-    bot.send_message(msg.chat.id, format!("Привет {}, этот бот генерирует табель для подсчёта переработок.\nВыбери что ты хочешь сделать ниже:", user_name)).await?;
+    bot.send_message(
+        msg.chat.id,
+        format!(
+            "Привет {}!\nВведи свой оклад ниже что бы получить готовый табель за {} год.",
+            user_name,
+            todo!()
+        ),
+    )
+    .await?;
     dialogue.update(todo!()).await?;
     Ok(())
 }
