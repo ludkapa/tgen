@@ -1,6 +1,8 @@
+use std::collections::HashSet;
+
 use crate::excel::styles::{CellType, DataType, cell_style};
 use anyhow::Result as AResult;
-use chrono::{Datelike, NaiveDate, Weekday};
+use chrono::{Datelike, Local, NaiveDate, Utc, Weekday};
 use derive_more::{Deref, DerefMut, IntoIterator};
 use rust_xlsxwriter::{
     FormatBorder, Formula, utility::column_name_to_number, worksheet::Worksheet,
@@ -91,6 +93,28 @@ impl FromIterator<Day> for Days {
 }
 
 impl Days {
+    pub(crate) fn new_with_holidays(holidays: HashSet<NaiveDate>) -> Self {
+        let current_year = match holidays.iter().next().cloned() {
+            Some(v) => v.year(),
+            None => Local::now().date_naive().year(),
+        };
+        let first_date = NaiveDate::from_ymd_opt(current_year as i32, 1, 1).unwrap();
+        let days: Days = first_date
+            .iter_days()
+            .take_while(|d| d.year() == current_year as i32)
+            .map(|d| {
+                if d.weekday() == Weekday::Sun {
+                    Day::new(d, DayType::Weekend)
+                } else if d.weekday() == Weekday::Sat || holidays.contains(&d) {
+                    Day::new(d, DayType::Earn)
+                } else {
+                    Day::new(d, DayType::Usual)
+                }
+            })
+            .collect();
+        days
+    }
+
     pub(crate) fn split_months(&self) -> impl Iterator<Item = &[Day]> {
         self.chunk_by(|a, b| a.day.month() == b.day.month())
     }

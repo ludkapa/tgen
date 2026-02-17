@@ -19,11 +19,13 @@ use rust_xlsxwriter::utility::column_name_to_number;
 use rust_xlsxwriter::workbook::Workbook;
 use std::collections::HashSet;
 
-pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
+pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
     // Creating table
     let mut table = Workbook::new();
-    // Get all days in selected year
-    let days: Days = get_dates_at_year(year).await?;
+    // Fetch holidays
+    let holidays = FetchedDates::init().await?;
+    // Generate days for filling
+    let days = Days::new_with_holidays(holidays.get_holidays());
     // Split days to chunks by month
     let chunks = days.split_months();
     for month_days in chunks {
@@ -106,30 +108,6 @@ pub async fn get_filled_table(year: u16, salary: u32) -> AResult<Vec<u8>> {
     // Convert struct to bytes and return it
     let buf = table.save_to_buffer()?;
     Ok(buf)
-}
-
-async fn get_dates_at_year(year: u16) -> AResult<Days> {
-    if year < 2017 {
-        anyhow::bail!("You cant use year lowest than 2017!");
-    }
-    let holidays = FetchedDates::init().await?.get_holidays();
-    let first_date = NaiveDate::from_ymd_opt(year as i32, 1, 1).unwrap();
-
-    let days: Days = first_date
-        .iter_days()
-        .take_while(|d| d.year() == year as i32)
-        .map(|d| {
-            if d.weekday() == Weekday::Sun {
-                Day::new(d, DayType::Weekend)
-            } else if d.weekday() == Weekday::Sat || holidays.contains(&d) {
-                Day::new(d, DayType::Earn)
-            } else {
-                Day::new(d, DayType::Usual)
-            }
-        })
-        .collect();
-
-    Ok(days)
 }
 
 mod data;
