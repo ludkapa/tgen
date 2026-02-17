@@ -12,9 +12,6 @@ enum DState {
     Start,
     MainMenu,
     Salary,
-    YearSelect {
-        salary: String,
-    },
 }
 
 #[tokio::main]
@@ -49,7 +46,6 @@ async fn run_bot(token: String, port: String, webhook_url: String) {
         .branch(dptree::case![DState::Start].endpoint(start))
         .branch(dptree::case![DState::MainMenu].endpoint(main_menu))
         .branch(dptree::case![DState::Salary].endpoint(salary))
-        .branch(dptree::case![DState::YearSelect { salary }].endpoint(year_select));
     // Dispatcher
     Dispatcher::builder(bot, router)
         .dependencies(dptree::deps![InMemStorage::<DState>::new()])
@@ -81,14 +77,5 @@ async fn main_menu(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerRes
 }
 
 async fn salary(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
-    todo!()
-}
-
-async fn year_select(
-    bot: Bot,
-    dialogue: UserDialogue,
-    salary: String,
-    msg: Message,
-) -> HandlerResult {
     todo!()
 }
