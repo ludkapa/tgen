@@ -1,9 +1,9 @@
+use anyhow::Result as AResult;
 use chrono::{Datelike, Local};
 use dotenvy::dotenv;
 use std::{env, error::Error, net::SocketAddr};
 use teloxide::{dispatching::dialogue::InMemStorage, prelude::*, update_listeners::webhooks};
 
-type HandlerResult = Result<(), Box<dyn Error + Sync + Send>>;
 type UserDialogue = Dialogue<DState, InMemStorage<DState>>;
 
 //Dialogue State
@@ -57,7 +57,7 @@ async fn run_bot(token: String, port: String, webhook_url: String) {
         .await;
 }
 
-async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult {
+async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> AResult<()> {
     let user = msg.from;
     let user_name: String = match user {
         Some(user) => match user.username {
