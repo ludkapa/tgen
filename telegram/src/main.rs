@@ -1,3 +1,4 @@
+use chrono::{Datelike, Local};
 use dotenvy::dotenv;
 use std::{env, error::Error, net::SocketAddr};
 use teloxide::{dispatching::dialogue::InMemStorage, prelude::*, update_listeners::webhooks};
@@ -70,7 +71,7 @@ async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult 
         format!(
             "Привет {}!\nВведи свой оклад ниже что бы получить готовый табель за {} год.",
             user_name,
-            todo!()
+            Local::now().year(),
         ),
     )
     .await?;
