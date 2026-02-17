@@ -1,4 +1,3 @@
-use crate::excel::data::days::Day;
 use crate::excel::data::days::DayType;
 use crate::excel::data::days::Days;
 use crate::excel::data::days::add_day_cell;
@@ -11,13 +10,11 @@ use crate::excel::styles::cell_style;
 
 use anyhow::Ok;
 use anyhow::Result as AResult;
-use chrono::{Datelike, NaiveDate, Weekday};
 use network::holiday;
 use rust_xlsxwriter::Format;
 use rust_xlsxwriter::FormatBorder;
 use rust_xlsxwriter::utility::column_name_to_number;
 use rust_xlsxwriter::workbook::Workbook;
-use std::collections::HashSet;
 
 pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
     // Creating table

@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use crate::excel::styles::{CellType, DataType, cell_style};
 use anyhow::Result as AResult;
-use chrono::{Datelike, Local, NaiveDate, Utc, Weekday};
+use chrono::{Datelike, Local, NaiveDate, Weekday};
 use derive_more::{Deref, DerefMut, IntoIterator};
 use rust_xlsxwriter::{
     FormatBorder, Formula, utility::column_name_to_number, worksheet::Worksheet,
