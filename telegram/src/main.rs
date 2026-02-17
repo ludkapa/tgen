@@ -74,7 +74,7 @@ async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> HandlerResult 
         ),
     )
     .await?;
-    dialogue.update(todo!()).await?;
+    dialogue.update(DState::Salary).await?;
     Ok(())
 }
 
