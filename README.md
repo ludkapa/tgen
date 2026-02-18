@@ -1,1 +1,1 @@
-main will be returned when telegram was been complited!
+main вернется, когда телеграмм бот будет готов.
