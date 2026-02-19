@@ -86,7 +86,7 @@ async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> AResult<()> {
     Ok(())
 }
 
-async fn salary(bot: Bot, dialogue: UserDialogue, msg: Message) -> AResult<()> {
+async fn salary(bot: Bot, msg: Message) -> AResult<()> {
     match msg.text() {
         Some(text) => {
             let salary = text.parse::<u32>().ok();
