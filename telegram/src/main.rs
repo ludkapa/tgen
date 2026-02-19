@@ -21,7 +21,6 @@ enum DState {
 async fn main() {
     // Load logs
     pretty_env_logger::init();
-    log::info!("Запуск бота...");
     // Load envs
     log::info!("Загрузка env...");
     dotenv().ok();
@@ -32,6 +31,7 @@ async fn main() {
         "8080".to_string()
     });
     let url = env::var("WEBHOOK_URL").expect("Не найден WEBHOOK_URL в .env файле!");
+    log::info!("Запуск бота...");
     run_bot(token, port, url).await;
 }
 
