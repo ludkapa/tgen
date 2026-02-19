@@ -20,10 +20,10 @@ enum DState {
 #[tokio::main]
 async fn main() {
     // Load logs
+    dotenv().ok();
     pretty_env_logger::init();
     // Load envs
     log::info!("Загрузка env...");
-    dotenv().ok();
     // ();
     let token = env::var("TGEN_BOT_TOKEN").expect("Не найден токен бота в .env файле!");
     let port = env::var("TGEN_PORT").unwrap_or_else(|_| {
