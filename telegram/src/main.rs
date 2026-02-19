@@ -2,7 +2,7 @@ use anyhow::Result as AResult;
 use chrono::{Datelike, Local};
 use dotenvy::dotenv;
 use engine::excel::get_filled_table;
-use std::{env, error::Error, net::SocketAddr};
+use std::{env, net::SocketAddr};
 use teloxide::{
     dispatching::dialogue::InMemStorage, prelude::*, types::InputFile, update_listeners::webhooks,
 };
