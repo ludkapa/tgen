@@ -98,8 +98,12 @@ async fn salary(bot: Bot, msg: Message) -> AResult<()> {
             match salary {
                 Some(s) => {
                     let table = get_filled_table(s).await?;
-                    bot.send_document(msg.chat.id, InputFile::memory(table))
-                        .await?;
+                    bot.send_document(
+                        msg.chat.id,
+                        InputFile::memory(table)
+                            .file_name(format!("tabel_{}.xlsx", Local::now().year())),
+                    )
+                    .await?;
                 }
                 None => send_err_msg().await?,
             };
