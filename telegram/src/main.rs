@@ -2,7 +2,7 @@ use anyhow::Result as AResult;
 use chrono::{Datelike, Local};
 use dotenvy::dotenv;
 use engine::excel::get_filled_table;
-use std::{env, error::Error, net::SocketAddr};
+use std::{env, net::SocketAddr};
 use teloxide::{
     dispatching::dialogue::InMemStorage, prelude::*, types::InputFile, update_listeners::webhooks,
 };
@@ -20,14 +20,18 @@ enum DState {
 #[tokio::main]
 async fn main() {
     // Load logs
+    dotenv().ok();
     pretty_env_logger::init();
-    log::info!("Запуск бота...");
     // Load envs
     log::info!("Загрузка env...");
-    dotenv().ok();
-    let token = env::var("BOT_TOKEN").unwrap();
-    let port = env::var("PORT").unwrap();
-    let url = env::var("WEBHOOK_URL").unwrap();
+    // ();
+    let token = env::var("TGEN_BOT_TOKEN").expect("Не найден токен бота в .env файле!");
+    let port = env::var("TGEN_PORT").unwrap_or_else(|_| {
+        log::error!("Порт не указан! Используем 8080!");
+        "8080".to_string()
+    });
+    let url = env::var("TGEN_WEBHOOK_URL").expect("Не найден WEBHOOK_URL в .env файле!");
+    log::info!("Запуск бота...");
     run_bot(token, port, url).await;
 }
 
@@ -82,19 +86,29 @@ async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> AResult<()> {
     Ok(())
 }
 
-async fn salary(bot: Bot, dialogue: UserDialogue, msg: Message) -> AResult<()> {
+async fn salary(bot: Bot, msg: Message) -> AResult<()> {
+    let send_err_msg = async || -> AResult<()> {
+        bot.send_message(msg.chat.id, "Некоректно указан оклад! Пример: 30456")
+            .await?;
+        Ok(())
+    };
     match msg.text() {
         Some(text) => {
             let salary = text.parse::<u32>().ok();
             match salary {
                 Some(s) => {
                     let table = get_filled_table(s).await?;
-                    bot.send_document(msg.chat.id, InputFile::memory(table));
+                    bot.send_document(
+                        msg.chat.id,
+                        InputFile::memory(table)
+                            .file_name(format!("tabel_{}.xlsx", Local::now().year())),
+                    )
+                    .await?;
                 }
-                None => todo!(),
+                None => send_err_msg().await?,
             };
         }
-        None => todo!(),
+        None => send_err_msg().await?,
     }
-    todo!()
+    Ok(())
 }
