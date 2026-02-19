@@ -25,9 +25,13 @@ async fn main() {
     // Load envs
     log::info!("Загрузка env...");
     dotenv().ok();
-    let token = env::var("BOT_TOKEN").unwrap();
-    let port = env::var("PORT").unwrap();
-    let url = env::var("WEBHOOK_URL").unwrap();
+    // ();
+    let token = env::var("BOT_TOKEN").expect("Не найден токен бота в .env файле!");
+    let port = env::var("PORT").unwrap_or_else(|_| {
+        log::error!("Порт не указан! Используем 8080!");
+        "8080".to_string()
+    });
+    let url = env::var("WEBHOOK_URL").expect("Не найден WEBHOOK_URL в .env файле!");
     run_bot(token, port, url).await;
 }
 
