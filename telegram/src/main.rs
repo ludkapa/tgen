@@ -93,7 +93,8 @@ async fn salary(bot: Bot, dialogue: UserDialogue, msg: Message) -> AResult<()> {
             match salary {
                 Some(s) => {
                     let table = get_filled_table(s).await?;
-                    bot.send_document(msg.chat.id, InputFile::memory(table));
+                    bot.send_document(msg.chat.id, InputFile::memory(table))
+                        .await?;
                 }
                 None => todo!(),
             };
