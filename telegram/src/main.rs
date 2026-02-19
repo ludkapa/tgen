@@ -25,12 +25,12 @@ async fn main() {
     log::info!("Загрузка env...");
     dotenv().ok();
     // ();
-    let token = env::var("BOT_TOKEN").expect("Не найден токен бота в .env файле!");
-    let port = env::var("PORT").unwrap_or_else(|_| {
+    let token = env::var("TGEN_BOT_TOKEN").expect("Не найден токен бота в .env файле!");
+    let port = env::var("TGEN_PORT").unwrap_or_else(|_| {
         log::error!("Порт не указан! Используем 8080!");
         "8080".to_string()
     });
-    let url = env::var("WEBHOOK_URL").expect("Не найден WEBHOOK_URL в .env файле!");
+    let url = env::var("TGEN_WEBHOOK_URL").expect("Не найден WEBHOOK_URL в .env файле!");
     log::info!("Запуск бота...");
     run_bot(token, port, url).await;
 }
