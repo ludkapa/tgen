@@ -87,6 +87,11 @@ async fn start(bot: Bot, dialogue: UserDialogue, msg: Message) -> AResult<()> {
 }
 
 async fn salary(bot: Bot, msg: Message) -> AResult<()> {
+    let send_err_msg = async || -> AResult<()> {
+        bot.send_message(msg.chat.id, "Некоректно указан оклад! Пример: 30456")
+            .await?;
+        Ok(())
+    };
     match msg.text() {
         Some(text) => {
             let salary = text.parse::<u32>().ok();
@@ -96,10 +101,10 @@ async fn salary(bot: Bot, msg: Message) -> AResult<()> {
                     bot.send_document(msg.chat.id, InputFile::memory(table))
                         .await?;
                 }
-                None => todo!(),
+                None => send_err_msg().await?,
             };
         }
-        None => todo!(),
+        None => send_err_msg().await?,
     }
-    todo!()
+    Ok(())
 }
