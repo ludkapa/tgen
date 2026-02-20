@@ -105,14 +105,14 @@ pub(crate) fn add_total_cells(
     month_worksheet.write_with_format(0, column_name_to_number("E"), work_hours, &format)?;
     // Overtime hours formula
     month_worksheet.write_formula_with_format(
-        1,
+        2,
         column_name_to_number("E"),
         Formula::new(usual_days_formula),
         &format,
     )?;
     // Weekend hours formula
     month_worksheet.write_formula_with_format(
-        2,
+        1,
         column_name_to_number("E"),
         Formula::new(weekend_formula),
         &format,
