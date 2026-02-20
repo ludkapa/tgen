@@ -1,13 +1,13 @@
-use crate::adapter::holidays::FetchedDates;
-use crate::excel::styles::CellType;
-use crate::excel::styles::DataType;
-use crate::excel::styles::cell_style;
-use anyhow::Ok;
+use crate::{
+    adapter::holidays::FetchedDates,
+    entities::days::{DayType, Days},
+    excel::{
+        cells_filling::{add_day_cell, add_header_cells, add_total_cells},
+        styles::{CellType, DataType, cell_style},
+    },
+};
 use anyhow::Result as AResult;
-use rust_xlsxwriter::Format;
-use rust_xlsxwriter::FormatBorder;
-use rust_xlsxwriter::utility::column_name_to_number;
-use rust_xlsxwriter::workbook::Workbook;
+use rust_xlsxwriter::{Format, FormatBorder, utility::column_name_to_number, workbook::Workbook};
 
 pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
     // Creating table
