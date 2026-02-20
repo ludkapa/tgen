@@ -1,9 +1,8 @@
-use std::collections::HashSet;
-
 use anyhow::Result as AResult;
 use chrono::Datelike;
 use chrono::NaiveDate;
 use serde::Deserialize;
+use std::collections::HashSet;
 
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct FetchedDates {

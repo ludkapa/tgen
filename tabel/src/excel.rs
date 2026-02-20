@@ -1,16 +1,14 @@
+use crate::adapter::holidays::FetchedDates;
 use crate::excel::data::days::DayType;
 use crate::excel::data::days::Days;
 use crate::excel::data::days::add_day_cell;
 use crate::excel::data::headers::add_header_cells;
 use crate::excel::data::total::add_total_cells;
-use crate::excel::holiday::FetchedDates;
 use crate::excel::styles::CellType;
 use crate::excel::styles::DataType;
 use crate::excel::styles::cell_style;
-
 use anyhow::Ok;
 use anyhow::Result as AResult;
-use network::holiday;
 use rust_xlsxwriter::Format;
 use rust_xlsxwriter::FormatBorder;
 use rust_xlsxwriter::utility::column_name_to_number;
@@ -108,5 +106,4 @@ pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
 }
 
 mod data;
-mod network;
 mod styles;
