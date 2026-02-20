@@ -1,9 +1,4 @@
 use crate::adapter::holidays::FetchedDates;
-use crate::excel::data::days::DayType;
-use crate::excel::data::days::Days;
-use crate::excel::data::days::add_day_cell;
-use crate::excel::data::headers::add_header_cells;
-use crate::excel::data::total::add_total_cells;
 use crate::excel::styles::CellType;
 use crate::excel::styles::DataType;
 use crate::excel::styles::cell_style;
@@ -105,5 +100,5 @@ pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
     Ok(buf)
 }
 
-mod data;
+mod cells_filling;
 mod styles;
