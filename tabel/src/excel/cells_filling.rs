@@ -10,7 +10,6 @@ use crate::{
 
 pub(super) fn add_day_cell(month_worksheet: &mut Worksheet, day: &Day) -> AResult<DayType> {
     let day_row = 2 + day.number();
-
     let mut format = match day.earn_type() {
         DayType::Earn => cell_style(DataType::UsualText, CellType::Earn),
         DayType::Weekend => cell_style(DataType::UsualText, CellType::Weekend),
@@ -23,7 +22,6 @@ pub(super) fn add_day_cell(month_worksheet: &mut Worksheet, day: &Day) -> AResul
         format!("{} {}", day.number(), day.weekday_short()),
         &format.set_border_left(FormatBorder::Medium),
     )?;
-
     format = cell_style(DataType::Money, CellType::TotalBonus);
     month_worksheet.write_formula_with_format(
         day_row,
@@ -47,33 +45,13 @@ pub(super) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day)
         "dev.release",
         &format,
     )?;
-
     // Day header
     month_worksheet.write_with_format(2, column_name_to_number("A"), "Число/День", &format)?;
     // Bonus header
     month_worksheet.write_with_format(2, column_name_to_number("C"), "Доплата", &format)?;
-    // Total month work hours header
-    month_worksheet.write_with_format(0, column_name_to_number("D"), "Рабочие часы:", &format)?;
-    // Total weekends hours header
-    month_worksheet.write_with_format(1, column_name_to_number("D"), "Часы выходных:", &format)?;
-    // Total overvork hours header
-    month_worksheet.write_with_format(
-        2,
-        column_name_to_number("D"),
-        "Часы переработки:",
-        &format,
-    )?;
-
     format = cell_style(DataType::UsualText, CellType::InputHeader);
     // Hours header
     month_worksheet.write_with_format(2, column_name_to_number("B"), "Часы", &format)?;
-    // Salary input header
-    month_worksheet.write_with_format(4, column_name_to_number("D"), "Оклад:", &format)?;
-
-    format = cell_style(DataType::UsualText, CellType::TotalPayment);
-    // Total payout header
-    month_worksheet.write_with_format(5, column_name_to_number("D"), "К получению:", &format)?;
-
     // Month
     format = match first_day.season() {
         Season::Winter => cell_style(DataType::UsualText, CellType::MonthWinter),
@@ -81,7 +59,6 @@ pub(super) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day)
         Season::Summer => cell_style(DataType::UsualText, CellType::MonthSummer),
         Season::Autumn => cell_style(DataType::UsualText, CellType::MonthAutumn),
     };
-
     month_worksheet.merge_range(
         1,
         column_name_to_number("A"),
@@ -93,23 +70,37 @@ pub(super) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day)
     Ok(())
 }
 
-pub(super) fn add_formula_cells(
+pub(super) fn add_salary(month_worksheet: &mut Worksheet, salary: u16) -> AResult<()> {
+    // Salary input header
+    let header_format = cell_style(DataType::UsualText, CellType::InputHeader);
+    month_worksheet.write_with_format(4, column_name_to_number("D"), "Оклад:", &header_format)?;
+    // Salary
+    let input_format = cell_style(DataType::Money, CellType::InputHeader);
+    month_worksheet.write_formula_with_format(
+        4,
+        column_name_to_number("E"),
+        format!("={}", salary).as_str(),
+        &input_format,
+    )?;
+    Ok(())
+}
+
+pub(super) fn add_total_hours(month_worksheet: &mut Worksheet, work_hours: u16) -> AResult<()> {
+    let format = cell_style(DataType::UsualText, CellType::Header);
+    // Total month hours header
+    month_worksheet.write_with_format(0, column_name_to_number("D"), "Рабочие часы:", &format)?;
+    // Hours
+    month_worksheet.write_with_format(0, column_name_to_number("E"), work_hours, &format)?;
+    Ok(())
+}
+
+pub(super) fn add_weekend_hours(
     month_worksheet: &mut Worksheet,
-    work_hours: u16,
-    total_days: u8,
-    usual_days_formula: String,
     weekend_formula: String,
 ) -> AResult<()> {
-    let mut format = cell_style(DataType::UsualText, CellType::Header);
-    // Work hours
-    month_worksheet.write_with_format(0, column_name_to_number("E"), work_hours, &format)?;
-    // Overtime hours formula
-    month_worksheet.write_formula_with_format(
-        2,
-        column_name_to_number("E"),
-        Formula::new(usual_days_formula),
-        &format,
-    )?;
+    let format = cell_style(DataType::UsualText, CellType::Header);
+    // Total weekends hours header
+    month_worksheet.write_with_format(1, column_name_to_number("D"), "Часы выходных:", &format)?;
     // Weekend hours formula
     month_worksheet.write_formula_with_format(
         1,
@@ -117,14 +108,47 @@ pub(super) fn add_formula_cells(
         Formula::new(weekend_formula),
         &format,
     )?;
+    Ok(())
+}
 
-    format = cell_style(DataType::Money, CellType::TotalPayment);
+pub(super) fn add_overworked_hours(
+    month_worksheet: &mut Worksheet,
+    usual_days_formula: String,
+) -> AResult<()> {
+    let format = cell_style(DataType::UsualText, CellType::Header);
+    // Total overwork hours header
+    month_worksheet.write_with_format(
+        2,
+        column_name_to_number("D"),
+        "Часы переработки:",
+        &format,
+    )?;
+    // Overtime hours formula
+    month_worksheet.write_formula_with_format(
+        2,
+        column_name_to_number("E"),
+        Formula::new(usual_days_formula),
+        &format,
+    )?;
+    Ok(())
+}
+
+pub(super) fn add_total_payment(month_worksheet: &mut Worksheet, total_days: u8) -> AResult<()> {
+    // Total payout header
+    let header_format = cell_style(DataType::UsualText, CellType::TotalPayment);
+    month_worksheet.write_with_format(
+        5,
+        column_name_to_number("D"),
+        "К получению:",
+        &header_format,
+    )?;
     // Total payment formula
+    let formula_format = cell_style(DataType::Money, CellType::TotalPayment);
     month_worksheet.write_formula_with_format(
         5,
         column_name_to_number("E"),
         Formula::new(format!("=SUM(C4:C{})+E5", total_days + 4)),
-        &format,
+        &formula_format,
     )?;
     Ok(())
 }
