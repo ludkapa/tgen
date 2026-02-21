@@ -8,7 +8,7 @@ use crate::{
     excel::styles::{CellType, DataType, cell_style},
 };
 
-pub(crate) fn add_day_cell(month_worksheet: &mut Worksheet, day: &Day) -> AResult<DayType> {
+pub(super) fn add_day_cell(month_worksheet: &mut Worksheet, day: &Day) -> AResult<DayType> {
     let day_row = 2 + day.number();
 
     let mut format = match day.earn_type() {
@@ -34,7 +34,7 @@ pub(crate) fn add_day_cell(month_worksheet: &mut Worksheet, day: &Day) -> AResul
     Ok(day.earn_type())
 }
 
-pub(crate) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day) -> AResult<()> {
+pub(super) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day) -> AResult<()> {
     // Year
     let mut format = cell_style(DataType::UsualText, CellType::Header);
     month_worksheet.write_with_format(0, column_name_to_number("A"), first_day.year(), &format)?;
@@ -93,7 +93,7 @@ pub(crate) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day)
     Ok(())
 }
 
-pub(crate) fn add_total_cells(
+pub(super) fn add_formulas_cells(
     month_worksheet: &mut Worksheet,
     work_hours: u16,
     total_days: u8,
