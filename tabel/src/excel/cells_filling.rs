@@ -96,7 +96,7 @@ pub(super) fn add_total_hours(month_worksheet: &mut Worksheet, work_hours: u16) 
 
 pub(super) fn add_weekend_hours(
     month_worksheet: &mut Worksheet,
-    weekend_formula: String,
+    weekends_formula: String,
 ) -> AResult<()> {
     let format = cell_style(DataType::UsualText, CellType::Header);
     // Total weekends hours header
@@ -105,7 +105,7 @@ pub(super) fn add_weekend_hours(
     month_worksheet.write_formula_with_format(
         1,
         column_name_to_number("E"),
-        Formula::new(weekend_formula),
+        Formula::new(weekends_formula),
         &format,
     )?;
     Ok(())
