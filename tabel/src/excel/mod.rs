@@ -55,7 +55,7 @@ pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
         let weekends_formula = format!("={}", weekend_cells.join("+"));
         let usual_days_formula = format!("={}", usual_day_cells.join("+"));
         // Add salary
-        let salary = match salary {
+        let salary_str = match salary {
             0 => "".to_string(),
             _ => salary.to_string(),
         };
@@ -64,7 +64,7 @@ pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
         month_worksheet.write_formula_with_format(
             4,
             column_name_to_number("E"),
-            format!("={}", salary).as_str(),
+            format!("={}", salary_str).as_str(),
             &format,
         )?;
         // Add a total block
