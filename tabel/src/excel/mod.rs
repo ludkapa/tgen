@@ -7,9 +7,7 @@ use crate::{
     },
 };
 use anyhow::Result as AResult;
-use rust_xlsxwriter::{
-    Format, FormatBorder, Worksheet, utility::column_name_to_number, workbook::Workbook,
-};
+use rust_xlsxwriter::{Format, FormatBorder, utility::column_name_to_number, workbook::Workbook};
 
 pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
     // Creating table
