@@ -1,5 +1,5 @@
 use crate::{
-    adapter::holidays::FetchedDates,
+    adapter::holidays::HolidayDates,
     entities::days::{DayType, Days},
     excel::{
         cells_filling::{add_day_cell, add_formula_cells, add_header_cells},
@@ -13,7 +13,7 @@ pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
     // Creating table
     let mut table = Workbook::new();
     // Fetch holidays
-    let holidays = FetchedDates::init().await?;
+    let holidays = HolidayDates::init().await?;
     // Generate days for filling
     let days = Days::new_with_holidays(holidays.get_holidays());
     // Split days to chunks by month
