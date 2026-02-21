@@ -4,6 +4,8 @@ use chrono::NaiveDate;
 use serde::Deserialize;
 use std::collections::HashSet;
 
+const HOLIDAYS_URL: &str = "https://raw.githubusercontent.com/d10xa/holidays-calendar/refs/heads/master/json/calendar.json";
+
 #[derive(Deserialize, Debug, PartialEq)]
 pub struct FetchedDates {
     holidays: HashSet<NaiveDate>,
@@ -12,7 +14,7 @@ pub struct FetchedDates {
 impl FetchedDates {
     pub async fn init() -> AResult<Self> {
         // Url with holidays array in "year-month-day" format
-        let url = "https://raw.githubusercontent.com/d10xa/holidays-calendar/refs/heads/master/json/calendar.json";
+        let url = HOLIDAYS_URL;
         // Fetch data
         let response = reqwest::get(url).await?.error_for_status()?;
         // Deserialize responce body into FetchedDates struct
