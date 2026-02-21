@@ -68,7 +68,7 @@ pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
             &format,
         )?;
         // Add a total block
-        add_total_cells(
+        add_formulas_cells(
             month_worksheet,
             work_hours,
             month_days.len() as u8,
