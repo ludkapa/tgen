@@ -30,7 +30,7 @@ pub(super) fn add_day_cell(month_worksheet: &mut Worksheet, day: &Day) -> AResul
         column_name_to_number("C"),
         Formula::new(format!("=E5/E1*B{}*2", day_row + 1)),
         &format,
-    )?; //Complite it
+    )?;
     Ok(day.earn_type())
 }
 
