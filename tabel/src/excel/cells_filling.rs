@@ -70,7 +70,7 @@ pub(super) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day)
     Ok(())
 }
 
-pub(super) fn add_salary(month_worksheet: &mut Worksheet, salary: u16) -> AResult<()> {
+pub(super) fn add_salary(month_worksheet: &mut Worksheet, salary: u32) -> AResult<()> {
     // Salary input header
     let header_format = cell_style(DataType::UsualText, CellType::InputHeader);
     month_worksheet.write_with_format(4, column_name_to_number("D"), "Оклад:", &header_format)?;
