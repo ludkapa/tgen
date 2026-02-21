@@ -7,18 +7,18 @@ use std::collections::HashSet;
 const HOLIDAYS_URL: &str = "https://raw.githubusercontent.com/d10xa/holidays-calendar/refs/heads/master/json/calendar.json";
 
 #[derive(Deserialize, Debug, PartialEq)]
-pub struct FetchedDates {
+pub struct HolidayDates {
     holidays: HashSet<NaiveDate>,
 }
 
-impl FetchedDates {
+impl HolidayDates {
     pub async fn init() -> AResult<Self> {
         // Url with holidays array in "year-month-day" format
         let url = HOLIDAYS_URL;
         // Fetch data
         let response = reqwest::get(url).await?.error_for_status()?;
         // Deserialize responce body into FetchedDates struct
-        let mut fetched_dates = response.json::<FetchedDates>().await?;
+        let mut fetched_dates = response.json::<HolidayDates>().await?;
         // It will be optimized to current year fetching
         // Try to find last year
         let last_year = match fetched_dates.holidays.iter().map(|d| d.year()).max() {
