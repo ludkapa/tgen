@@ -33,7 +33,7 @@ impl FetchedDates {
         Ok(fetched_dates)
     }
 
-    pub(crate) fn get_holidays(&self) -> HashSet<NaiveDate> {
-        self.holidays.clone()
+    pub(crate) fn get_holidays(&self) -> &HashSet<NaiveDate> {
+        &self.holidays
     }
 }
