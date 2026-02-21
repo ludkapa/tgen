@@ -93,7 +93,7 @@ pub(super) fn add_header_cells(month_worksheet: &mut Worksheet, first_day: &Day)
     Ok(())
 }
 
-pub(super) fn add_formulas_cells(
+pub(super) fn add_formula_cells(
     month_worksheet: &mut Worksheet,
     work_hours: u16,
     total_days: u8,

@@ -2,7 +2,7 @@ use crate::{
     adapter::holidays::FetchedDates,
     entities::days::{DayType, Days},
     excel::{
-        cells_filling::{add_day_cell, add_formulas_cells, add_header_cells},
+        cells_filling::{add_day_cell, add_formula_cells, add_header_cells},
         styles::{CellType, DataType, cell_style},
     },
 };
@@ -66,7 +66,7 @@ pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
             &format,
         )?;
         // Add a total block
-        add_formulas_cells(
+        add_formula_cells(
             month_worksheet,
             work_hours,
             month_days.len() as u8,
