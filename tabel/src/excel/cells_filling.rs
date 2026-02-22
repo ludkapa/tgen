@@ -3,9 +3,7 @@ use crate::{
     excel::styles::{CellType, DataType, cell_style},
 };
 use anyhow::Result as AResult;
-use rust_xlsxwriter::{
-    FormatBorder, Formula, utility::column_name_to_number, worksheet::Worksheet,
-};
+use rust_xlsxwriter::{FormatBorder, Formula, worksheet::Worksheet};
 
 const COL_DATE: u16 = 0;
 const COL_OVERWORKED_COUNTER: u16 = 1;
