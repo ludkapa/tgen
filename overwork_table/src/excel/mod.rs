@@ -10,7 +10,7 @@ use crate::{
     },
 };
 use anyhow::Result as AResult;
-use rust_xlsxwriter::{utility::column_name_to_number, workbook::Workbook, worksheet::Worksheet};
+use rust_xlsxwriter::{workbook::Workbook, worksheet::Worksheet};
 
 pub async fn get_filled_table(salary: u32) -> AResult<Vec<u8>> {
     // Fetch holidays
