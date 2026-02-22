@@ -1,9 +1,12 @@
 use crate::{
     adapter::holidays::HolidayDates,
     entities::days::{Day, DayType, Days},
-    excel::cells_filling::{
-        add_day_cell, add_header_cells, add_overworked_hours, add_salary, add_total_hours,
-        add_total_payment, add_weekend_hours,
+    excel::{
+        cell_constants::{COL_BONUS, COL_OVERWORKED_COUNTER, COL_TOTAL_HOURS},
+        cells_filling::{
+            add_day_cell, add_header_cells, add_overworked_hours, add_salary, add_total_hours,
+            add_total_payment, add_weekend_hours,
+        },
     },
 };
 use anyhow::Result as AResult;
@@ -101,11 +104,11 @@ fn polish_worksheet(month_worksheet: &mut Worksheet) -> AResult<()> {
     // Make worksheet white
     month_worksheet.set_screen_gridlines(false);
     // Make E column wider
-    month_worksheet.set_column_width(column_name_to_number("E"), 12)?;
+    month_worksheet.set_column_width(COL_TOTAL_HOURS, 12)?;
     // Make C column wider
-    month_worksheet.set_column_width(column_name_to_number("C"), 10)?;
+    month_worksheet.set_column_width(COL_BONUS, 10)?;
     // Make B column narrower
-    month_worksheet.set_column_width(column_name_to_number("B"), 7.5)?;
+    month_worksheet.set_column_width(COL_OVERWORKED_COUNTER, 7.5)?;
     Ok(())
 }
 
