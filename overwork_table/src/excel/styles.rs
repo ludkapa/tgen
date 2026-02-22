@@ -18,6 +18,7 @@ pub(crate) enum CellType {
     MonthSummer,  // For month summer cells - yellow background solid border and normal font
     MonthAutumn,  // For month autumn cells - orange background solid border and normal font
     MonthSpring,  // For month spring cells - green background solid border and normal font
+    BottomBorder, // For solid border that will pasted after all days
 }
 
 pub(crate) fn cell_style(data_type: DataType, cell_type: CellType) -> Format {
@@ -64,6 +65,8 @@ pub(crate) fn cell_style(data_type: DataType, cell_type: CellType) -> Format {
         CellType::MonthAutumn => Format::new()
             .set_border(FormatBorder::Medium)
             .set_background_color(Color::RGB(BG_MONTH_AUTUMN)),
+
+        CellType::BottomBorder => Format::new().set_border_top(FormatBorder::Medium),
     };
 
     format = match data_type {
