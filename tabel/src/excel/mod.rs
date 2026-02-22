@@ -109,5 +109,6 @@ fn polish_worksheet(month_worksheet: &mut Worksheet) -> AResult<()> {
     Ok(())
 }
 
+mod cell_constants;
 mod cells_filling;
 mod styles;
