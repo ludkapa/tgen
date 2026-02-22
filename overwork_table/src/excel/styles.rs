@@ -1,3 +1,4 @@
+use crate::excel::styles_constants::*;
 use rust_xlsxwriter::{Color, Format, FormatBorder};
 
 pub(crate) enum DataType {
@@ -26,47 +27,47 @@ pub(crate) fn cell_style(data_type: DataType, cell_type: CellType) -> Format {
         CellType::Weekend => Format::new()
             .set_border(FormatBorder::Dotted)
             .set_bold()
-            .set_background_color(Color::RGB(0xF8B9B8)),
+            .set_background_color(Color::RGB(BG_WEEKEND)),
 
         CellType::Earn => Format::new()
             .set_border(FormatBorder::Dotted)
             .set_bold()
-            .set_background_color(Color::RGB(0xB2E19E)),
+            .set_background_color(Color::RGB(BG_EARN)),
 
         CellType::Header => Format::new()
             .set_border(FormatBorder::Medium)
-            .set_background_color(Color::RGB(0xEDCAE9)),
+            .set_background_color(Color::RGB(BG_HEADER)),
 
         CellType::TotalBonus => Format::new().set_border(FormatBorder::Medium).set_bold(),
 
         CellType::TotalPayment => Format::new()
             .set_border(FormatBorder::Medium)
             .set_bold()
-            .set_background_color(Color::RGB(0xB2E19E)),
+            .set_background_color(Color::RGB(BG_TOTAL_PAYMENT)),
 
         CellType::InputHeader => Format::new()
             .set_border(FormatBorder::Medium)
-            .set_background_color(Color::RGB(0xF0C2A7)),
+            .set_background_color(Color::RGB(BG_INPUT_HEADER)),
 
         CellType::MonthWinter => Format::new()
             .set_border(FormatBorder::Medium)
-            .set_background_color(Color::RGB(0xC6E8F4)),
+            .set_background_color(Color::RGB(BG_MONTH_WINTER)),
 
         CellType::MonthSpring => Format::new()
             .set_border(FormatBorder::Medium)
-            .set_background_color(Color::RGB(0xB2E19E)),
+            .set_background_color(Color::RGB(BG_MONTH_SPRING)),
 
         CellType::MonthSummer => Format::new()
             .set_border(FormatBorder::Medium)
-            .set_background_color(Color::RGB(0xFFE699)),
+            .set_background_color(Color::RGB(BG_MONTH_SUMMER)),
 
         CellType::MonthAutumn => Format::new()
             .set_border(FormatBorder::Medium)
-            .set_background_color(Color::RGB(0xF0C1A7)),
+            .set_background_color(Color::RGB(BG_MONTH_AUTUMN)),
     };
 
     format = match data_type {
-        DataType::Money => format.set_num_format("#,##0.00\" ₽\""),
+        DataType::Money => format.set_num_format(FORMAT_MONEY),
         DataType::UsualText => format,
     };
 
