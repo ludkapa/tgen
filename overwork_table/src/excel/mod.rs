@@ -2,10 +2,10 @@ use crate::{
     adapter::holidays::HolidayDates,
     entities::days::{Day, DayType, Days},
     excel::{
-        cells_constants::{COL_BONUS, COL_OVERWORKED_COUNTER, COL_TOTAL_HOURS},
+        cells_constants::{COL_BONUS, COL_OVERWORKED_COUNTER, COL_TOTAL_HOURS, ROW_DAY_OFFSET},
         cells_filling::{
-            add_day_cell, add_header_cells, add_overworked_hours, add_salary, add_total_hours,
-            add_total_payment, add_weekend_hours,
+            add_bottom_border, add_day_cell, add_header_cells, add_overworked_hours, add_salary,
+            add_total_hours, add_total_payment, add_weekend_hours,
         },
     },
 };
@@ -69,6 +69,10 @@ fn build_month_sheet(table: &mut Workbook, month_days: &[Day], salary: u32) -> A
 
     // Final styles
     polish_worksheet(month_worksheet)?;
+
+    // Add bottom border
+    let bottom_of_days = month_days.len() as u32 + ROW_DAY_OFFSET as u32 + 1;
+    add_bottom_border(month_worksheet, bottom_of_days)?;
     Ok(())
 }
 
