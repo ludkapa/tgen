@@ -1,12 +1,6 @@
-use std::collections::HashSet;
-
-use crate::excel::styles::{CellType, DataType, cell_style};
-use anyhow::Result as AResult;
 use chrono::{Datelike, Local, NaiveDate, Weekday};
 use derive_more::{Deref, DerefMut, IntoIterator};
-use rust_xlsxwriter::{
-    FormatBorder, Formula, utility::column_name_to_number, worksheet::Worksheet,
-};
+use std::collections::HashSet;
 
 #[derive(Default, Debug, Clone, Copy)]
 pub(crate) enum DayType {
@@ -36,6 +30,10 @@ impl Day {
 
     pub(crate) fn year(&self) -> i32 {
         self.day.year()
+    }
+
+    pub(crate) fn earn_type(&self) -> DayType {
+        self.flag
     }
 
     pub(crate) fn number(&self) -> u32 {
@@ -93,7 +91,7 @@ impl FromIterator<Day> for Days {
 }
 
 impl Days {
-    pub(crate) fn new_with_holidays(holidays: HashSet<NaiveDate>) -> Self {
+    pub(crate) fn new_with_holidays(holidays: &HashSet<NaiveDate>) -> Self {
         let current_year = match holidays.iter().next().cloned() {
             Some(v) => v.year(),
             None => Local::now().date_naive().year(),
@@ -118,30 +116,4 @@ impl Days {
     pub(crate) fn split_months(&self) -> impl Iterator<Item = &[Day]> {
         self.chunk_by(|a, b| a.day.month() == b.day.month())
     }
-}
-
-pub(crate) fn add_day_cell(month_worksheet: &mut Worksheet, day: &Day) -> AResult<DayType> {
-    let day_row = 2 + day.number();
-
-    let mut format = match day.flag {
-        DayType::Earn => cell_style(DataType::UsualText, CellType::Earn),
-        DayType::Weekend => cell_style(DataType::UsualText, CellType::Weekend),
-        DayType::Usual => cell_style(DataType::UsualText, CellType::Usual),
-    };
-    month_worksheet.write_with_format(day_row, column_name_to_number("B"), "0", &format)?;
-    month_worksheet.write_with_format(
-        day_row,
-        0,
-        format!("{} {}", day.number(), day.weekday_short()),
-        &format.set_border_left(FormatBorder::Medium),
-    )?;
-
-    format = cell_style(DataType::Money, CellType::TotalBonus);
-    month_worksheet.write_formula_with_format(
-        day_row,
-        column_name_to_number("C"),
-        Formula::new(format!("=E5/E1*B{}*2", day_row + 1)),
-        &format,
-    )?; //Complite it
-    Ok(day.flag)
 }
