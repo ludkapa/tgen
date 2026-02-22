@@ -2,7 +2,7 @@ use crate::{
     adapter::holidays::HolidayDates,
     entities::days::{Day, DayType, Days},
     excel::{
-        cell_constants::{COL_BONUS, COL_OVERWORKED_COUNTER, COL_TOTAL_HOURS},
+        cells_constants::{COL_BONUS, COL_OVERWORKED_COUNTER, COL_TOTAL_HOURS},
         cells_filling::{
             add_day_cell, add_header_cells, add_overworked_hours, add_salary, add_total_hours,
             add_total_payment, add_weekend_hours,
@@ -112,6 +112,6 @@ fn polish_worksheet(month_worksheet: &mut Worksheet) -> AResult<()> {
     Ok(())
 }
 
-mod cell_constants;
+mod cells_constants;
 mod cells_filling;
 mod styles;

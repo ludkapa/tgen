@@ -1,4 +1,4 @@
-use crate::excel::cell_constants::*;
+use crate::excel::cells_constants::*;
 use crate::{
     entities::days::{Day, DayType, Season},
     excel::styles::{CellType, DataType, cell_style},
