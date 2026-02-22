@@ -1,5 +1,5 @@
 [workspace]
-members = ["tabel", "telegram"]
+members = ["overwork_table", "telegram"]
 resolver = "3"
 
 [workspace.dependencies]

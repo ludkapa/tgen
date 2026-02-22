@@ -1300,6 +1300,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "overwork_table"
+version = "0.2.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "derive_more 2.1.1",
+ "reqwest 0.13.2",
+ "rust_xlsxwriter",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "parking_lot"
 version = "0.12.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2176,19 +2189,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tabel"
-version = "0.2.0"
-dependencies = [
- "anyhow",
- "chrono",
- "derive_more 2.1.1",
- "reqwest 0.13.2",
- "rust_xlsxwriter",
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "take_mut"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2208,8 +2208,8 @@ dependencies = [
  "chrono",
  "dotenvy",
  "log",
+ "overwork_table",
  "pretty_env_logger",
- "tabel",
  "teloxide",
  "tokio",
 ]
