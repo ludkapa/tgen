@@ -171,3 +171,19 @@ pub(super) fn add_total_payment(month_worksheet: &mut Worksheet, total_days: u8)
     )?;
     Ok(())
 }
+
+pub(super) fn add_bottom_border(
+    month_worksheet: &mut Worksheet,
+    bottom_of_days: u32,
+) -> AResult<()> {
+    let format = cell_style(DataType::UsualText, CellType::BottomBorder);
+    month_worksheet.merge_range(
+        bottom_of_days,
+        COL_DATE,
+        bottom_of_days,
+        COL_BONUS,
+        "",
+        &format,
+    )?;
+    Ok(())
+}
